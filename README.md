@@ -39,27 +39,36 @@ and in production on AWS EC2 + RDS.
 
 ```
 three-tier-app/
-├── backend/                 # Flask API
+├── backend/                         # Flask REST API
 │   ├── app.py
 │   ├── requirements.txt
 │   ├── Dockerfile
 │   └── .dockerignore
-├── frontend/                 # Static UI
-│   ├── index.html / style.css / app.js
-│   ├── nginx.conf            # serves static files
+│
+├── frontend/                        # Static frontend
+│   ├── index.html
+│   ├── style.css
+│   ├── app.js
+│   ├── nginx.conf                   # Nginx config for frontend container
 │   ├── Dockerfile
 │   └── .dockerignore
-├── nginx/                    # Reverse proxy in front of frontend+backend
-│   ├── nginx.conf
+│
+├── nginx/                           # Reverse proxy
+│   ├── nginx.conf                   # Routes frontend + backend traffic
 │   └── Dockerfile
-├── deploy/
-│   ├── deploy.sh                    # bootstrap + deploy on EC2
-│   ├── create_security_groups.sh    # AWS CLI: SGs for EC2 + RDS
-│   └── create_rds.sh                # AWS CLI: create the RDS instance
-├── docker-compose.yml         # local dev (includes MySQL container)
-├── docker-compose.prod.yml    # production (uses RDS, no MySQL container)
-├── .env.example
-└── .gitignore
+│
+├── deploy/                          # EC2 deployment scripts
+│   └── deploy.sh
+│
+├── docker-compose.yml               # Local development + MySQL
+├── docker-compose.prod.yml          # Production + AWS RDS
+│
+├── .env.example                     # Environment variable template
+├── .env                             # Local environment variables
+├── .env.aws                          # AWS/production environment variables
+├── .gitignore
+├── README.md                         # Project documentation
+
 ```
 
 ## 1. Run it locally

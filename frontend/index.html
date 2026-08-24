@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>3-Tier Demo App</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="card">
+    <h1>Task Tracker</h1>
+    <p class="subtitle">Frontend &rarr; Nginx &rarr; Backend API &rarr; MySQL (RDS)</p>
+
+    <form id="task-form">
+      <input id="task-input" type="text" placeholder="Add a task..." required />
+      <button type="submit">Add</button>
+    </form>
+
+    <ul id="task-list"></ul>
+    <p id="status" class="status"></p>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

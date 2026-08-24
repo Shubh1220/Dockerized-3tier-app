@@ -1,0 +1,17 @@
+# Secrets — never commit real env values
+.env
+.env.aws
+*.pem
+*.key
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Docker
+*.log
+
+# OS
+.DS_Store

@@ -27,7 +27,8 @@ USER appuser
 # Expose port of flask 
 EXPOSE 5000
 
-# To check the health and cmd of local host 
+# To check the health and cmd of local host
+# http://localhost for using local machine and http://<ec2-ip-address> for using AWS EC2 IP Address 
 HEALTHCHECK --interval=15s --timeout=5s --start-period=10s --retries=5 \
     CMD curl -f  http://localhost:5000/api/health || exit 1
 

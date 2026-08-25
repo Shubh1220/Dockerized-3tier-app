@@ -13,6 +13,7 @@ COPY index.html style.css app.js /usr/share/nginx/html/
 EXPOSE 80
 
 # To check health and cmd of localhost
+# http://localhost for using local machine and http://<ec2-ip-address> for using AWS EC2 IP Address
 HEALTHCHECK --interval=15s --timeout=5s --start-period=10s --retries=5 \
      CMD wget -qO- http://localhost:80/ || exit 1
 

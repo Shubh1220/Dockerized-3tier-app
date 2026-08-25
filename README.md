@@ -49,10 +49,10 @@ three-tier-app/
 
 ```
 
-## 1. Run it locally
+## 1. Run it EC2 Instance
 
 ```bash
-cp .env.example .env          # edit passwords as you like
+cp .env.example .env.aws          # edit passwords as you like
 docker compose up -d --build
 ```
 
@@ -100,14 +100,14 @@ group can reach it.
 Create both with the provided script:
 
 ```bash
-VPC_ID=vpc-xxxxxxxx MY_IP=$(curl -s ifconfig.me)/32 ./deploy/create_security_groups.sh
+VPC_ID=vpc-xxxxxxxx MY_IP=$(curl -s ifconfig.me)/32 ./deploy/deploy.sh
 ```
 
 ### Create the RDS instance
 
 ```bash
 RDS_SG_ID=sg-xxxx SUBNET_GROUP=my-db-subnet-group DB_PASSWORD='StrongPassw0rd!' \
-  ./deploy/create_rds.sh
+  ./deploy/deploy.sh
 ```
 
 Wait for it to become `available`, then grab the endpoint:
@@ -123,10 +123,10 @@ aws rds describe-db-instances --db-instance-identifier three-tier-mysql \
    is enough for a demo) in a public subnet, attached to `three-tier-ec2-sg`,
    with a key pair for SSH.
 2. SSH in, then either:
-   - clone the repo yourself and copy `.env.example` to `.env`, filling in
+   - clone the repo yourself and copy `.env.example` to `.env.aws`, filling in
      `DB_HOST` with the RDS endpoint, `DB_USER`/`DB_PASSWORD` matching what
      you set in `create_rds.sh`, and `DB_NAME`; or
-   - let `deploy.sh` clone it for you (see below) and then create `.env`.
+   - let `deploy.sh` clone it for you (see below) and then create `.env.aws`.
 3. Run the deploy script:
 
    ```bash
@@ -166,7 +166,7 @@ runs `deploy.sh` on every push to `main`.
 | `FLASK_SECRET_KEY` | backend | random string |
 | `PUBLIC_PORT` | nginx (dev) | defaults to `80` |
 
-`.env` is git-ignored; only `.env.example` (with placeholder values) is
+`.env.aws` is git-ignored; only `.env.example` (with placeholder values) is
 committed.
 
 ## 4. Persistence

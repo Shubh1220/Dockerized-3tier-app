@@ -4,10 +4,7 @@ A Flask + static-frontend app, containerized with Docker, fronted by an Nginx
 reverse proxy, persisting data in MySQL — running locally with Docker Compose
 and in production on AWS EC2 + RDS.
 
-```
 ![Architecture diagram](images/architecture.svg)
-
-```
 
 - **Frontend container**: static HTML/JS/CSS served by nginx.
 - **Backend container**: Flask API (gunicorn) talking to MySQL via PyMySQL.

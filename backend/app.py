@@ -1,6 +1,7 @@
 """
 Backend API - Flask
-Talks to MySQL (local Docker container in dev, AWS RDS in prod).
+Talks to MySQL (local Docker container in dev, AWS RDS in prod). 
+DB_HOST=mysql using local machine and DB_Host=<your-rds-aws> & DB_PASSWORD using AWS RDS in Production
 All configuration comes from environment variables (see .env.example).
 """
 import os

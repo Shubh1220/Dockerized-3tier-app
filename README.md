@@ -5,27 +5,8 @@ reverse proxy, persisting data in MySQL — running locally with Docker Compose
 and in production on AWS EC2 + RDS.
 
 ```
-                     ┌────────────────────────────────────────┐
- User ──HTTP──▶      │   EC2 instance                          │
-                     │                                          │
-                     │  ┌────────────┐   /            ┌──────┐ │
-                     │  │   Nginx    │──────────────▶ │Front- │ │
-                     │  │  (reverse  │                 │end    │ │
-                     │  │   proxy)   │   /api/*        │(nginx)│ │
-                     │  │  :80       │──────────────▶ └──────┘ │
-                     │  └─────┬──────┘                          │
-                     │        │              ┌────────────┐     │
-                     │        └─────────────▶│  Backend   │     │
-                     │                       │ Flask API  │     │
-                     │                       │  :5000     │     │
-                     │                       └─────┬──────┘     │
-                     └─────────────────────────────┼────────────┘
-                                                     │  3306 (TLS)
-                                                     ▼
-                                          ┌───────────────────┐
-                                          │   AWS RDS MySQL    │
-                                          │ (private subnet)   │
-                                          └───────────────────┘
+![Architecture diagram](images/architecture.svg)
+
 ```
 
 - **Frontend container**: static HTML/JS/CSS served by nginx.

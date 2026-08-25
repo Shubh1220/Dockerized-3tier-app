@@ -6,46 +6,48 @@ echo "======================================"
 echo " Deploying 3-Tier Application on AWS"
 echo "======================================"
 
-# -------------------------------
-# Variables
-# -------------------------------
+# --------------------------------------
+# Project configuration
+# --------------------------------------
 
-REPO_URL="${GITHUB_REPOSITORY_URL}"
-BRANCH="${GITHUB_BRANCH:-main}"
-APP_DIR="${APP_DIR:-dockerized-3tier-app}"
+REPO_URL="https://github.com/Shubh1220/dockerized-3tier-app.git"
+BRANCH="main"
 
-# -------------------------------
+# Project root = parent directory of deploy/
+PROJECT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
+
+cd "$PROJECT_DIR"
+
+echo "Project directory: $PROJECT_DIR"
+
+# --------------------------------------
 # 1. Update system
-# -------------------------------
+# --------------------------------------
 
 echo "[1/7] Updating system packages..."
 
 sudo apt-get update -y
 
-# -------------------------------
+# --------------------------------------
 # 2. Install Git and Docker
-# -------------------------------
+# --------------------------------------
 
 echo "[2/7] Installing Git and Docker..."
 
-sudo apt-get install -y git docker.io
+sudo apt-get install -y git docker.io docker-compose-v2
 
-# Install Docker Compose plugin
-sudo apt-get install -y docker-compose-plugin
-
-# Enable Docker
 sudo systemctl enable docker
 sudo systemctl start docker
 
-# -------------------------------
-# 3. Clone / Update repository
-# -------------------------------
+# --------------------------------------
+# 3. Get source code
+# --------------------------------------
 
 echo "[3/7] Getting source code..."
 
-if [ -d "$APP_DIR/.git" ]; then
+if [ -d ".git" ]; then
 
-    cd "$APP_DIR"
+    echo "Git repository already exists."
 
     git fetch origin
     git checkout "$BRANCH"
@@ -53,32 +55,33 @@ if [ -d "$APP_DIR/.git" ]; then
 
 else
 
-    git clone --branch "$BRANCH" "$REPO_URL" "$APP_DIR"
-    cd "$APP_DIR"
+    echo "Cloning repository..."
+
+    git clone --branch "$BRANCH" "$REPO_URL" "$PROJECT_DIR"
 
 fi
 
-# -------------------------------
-# 4. Check environment file
-# -------------------------------
+# --------------------------------------
+# 4. Check .env.aws
+# --------------------------------------
 
-echo "[4/7] Checking .env file..."
+echo "[4/7] Checking .env.aws file..."
 
 if [ -f ".env.aws" ]; then
 
-    echo ".env.aws file exists"
+    echo ".env.aws file exists."
 
 else
 
-    echo "ERROR: .env.aws file not found"
+    echo "ERROR: .env.aws file not found."
     echo "Create .env.aws before deployment."
     exit 1
 
 fi
 
-# -------------------------------
+# --------------------------------------
 # 5. Stop old containers
-# -------------------------------
+# --------------------------------------
 
 echo "[5/7] Stopping old containers..."
 
@@ -87,9 +90,9 @@ sudo docker compose \
     -f docker-compose.prod.yml \
     down
 
-# -------------------------------
+# --------------------------------------
 # 6. Build and start containers
-# -------------------------------
+# --------------------------------------
 
 echo "[6/7] Building and starting containers..."
 
@@ -98,15 +101,15 @@ sudo docker compose \
     -f docker-compose.prod.yml \
     up -d --build
 
-# -------------------------------
+# --------------------------------------
 # 7. Health check
-# -------------------------------
+# --------------------------------------
 
 echo "[7/7] Checking application health..."
 
 sleep 10
 
-if curl -f http://localhost/health; then
+if curl -f http://localhost/healthz; then
 
     echo ""
     echo "======================================"
@@ -117,7 +120,7 @@ else
 
     echo ""
     echo "ERROR: Application health check failed."
-    echo ""
+
     sudo docker compose \
         --env-file .env.aws \
         -f docker-compose.prod.yml \

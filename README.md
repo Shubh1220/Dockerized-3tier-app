@@ -178,7 +178,34 @@ committed.
   in `create_rds.sh`), and optional Multi-AZ failover — the EC2/Docker layer
   is stateless and can be rebuilt at any time without losing data.
 
-## 5. GitHub workflow
+## 5. Screenshots
+
+Deployment walkthrough, from provisioning to a live app talking to RDS.
+
+**AWS resources**
+
+| EC2 instance | RDS MySQL instance |
+|---|---|
+| ![EC2 instance](screenshots/ec2-instance.png) | ![AWS RDS](screenshots/aws-rds.png) |
+
+**Deploying with `deploy.sh`**
+
+| | |
+|---|---|
+| ![Deploy step 1](screenshots/deploy-1.png) | ![Deploy step 2](screenshots/deploy-2.png) |
+| ![Deploy step 3](screenshots/deploy-3.png) | ![Deploy step 4](screenshots/deploy-4.png) |
+| ![Deploy step 5](screenshots/deploy-5.png) | ![docker ps](screenshots/docker%20ps.png) |
+
+`docker ps` above confirms all three containers (nginx, frontend, backend) are
+up and healthy on the EC2 instance.
+
+**Live app and database**
+
+| App running in the browser | Backend connected to RDS |
+|---|---|
+| ![Live app](screenshots/live-browser.png) | ![MySQL RDS connection](screenshots/msql-rds.png) |
+
+## 6. GitHub workflow
 
 ```
 git init

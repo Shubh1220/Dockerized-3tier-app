@@ -64,14 +64,14 @@ fi
 
 echo "[4/7] Checking .env file..."
 
-if [ -f ".env" ]; then
+if [ -f ".env.aws" ]; then
 
-    echo ".env file exists"
+    echo ".env.aws file exists"
 
 else
 
-    echo "ERROR: .env file not found"
-    echo "Create .env before deployment."
+    echo "ERROR: .env.aws file not found"
+    echo "Create .env.aws before deployment."
     exit 1
 
 fi
@@ -83,7 +83,7 @@ fi
 echo "[5/7] Stopping old containers..."
 
 sudo docker compose \
-    --env-file .env \
+    --env-file .env.aws \
     -f docker-compose.prod.yml \
     down
 
@@ -94,7 +94,7 @@ sudo docker compose \
 echo "[6/7] Building and starting containers..."
 
 sudo docker compose \
-    --env-file .env \
+    --env-file .env.aws \
     -f docker-compose.prod.yml \
     up -d --build
 
@@ -119,7 +119,7 @@ else
     echo "ERROR: Application health check failed."
     echo ""
     sudo docker compose \
-        --env-file .env \
+        --env-file .env.aws \
         -f docker-compose.prod.yml \
         ps
 

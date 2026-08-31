@@ -208,7 +208,7 @@ up and healthy on the EC2 instance.
 **Build & Push to Docker Hub**
 
 | Build & Push images to Docker Hub with GitHub Actions | 
-|---|---|
+|---|
 | ![Build & Push to Docker Hub](screenshots/dockerhub.png) | 
 
 ## 6. GitHub workflow

@@ -205,6 +205,12 @@ up and healthy on the EC2 instance.
 |---|---|
 | ![Live app](screenshots/live-browser.png) | ![MySQL RDS connection](screenshots/msql-rds.png) |
 
+**Build & Push to Docker Hub**
+
+| Build & Push images to Docker Hub with GitHub Actions | 
+|---|---|
+| ![Build & Push to Docker Hub](screenshots/dockerhub.png) | 
+
 ## 6. GitHub workflow
 
 ```
@@ -216,3 +222,31 @@ git push -u origin main
 ```
 
 Then on EC2, `deploy.sh` (or your CI/CD) pulls from `origin/main` and rebuilds.
+
+## 7. Build & push images to Docker Hub with GitHub Actions
+
+[`.github/workflows/docker-publish.yml`](.github/workflows/docker-publish.yml)
+builds all three images (frontend, backend, nginx) and pushes each to
+Docker Hub on every push to `main`, or on demand from the Actions tab.
+
+**One-time setup:**
+
+1. Create a Docker Hub access token: Docker Hub → your profile → **Account
+   Settings → Security → New Access Token**. Copy it — you won't see it
+   again.
+2. In your GitHub repo, go to **Settings → Secrets and variables →
+   Actions → New repository secret** and add:
+   - `DOCKERHUB_USERNAME` — your Docker Hub username
+   - `DOCKERHUB_TOKEN` — the access token from step 1
+3. Push to `main`. Check the **Actions** tab for the run.
+
+Each image is pushed as `<your-dockerhub-username>/three-tier-app-<service>`
+with two tags: `latest` (on `main`) and the short git SHA, so you can always
+pin a deployment to an exact commit. Pushing a `v*.*.*` tag also adds a
+semver tag (e.g. `v1.2.0`).
+
+**Using the pushed images instead of building on EC2:** once images are on
+Docker Hub, `docker-compose.prod.yml` can reference them directly with
+`image: <user>/three-tier-app-backend:latest` instead of `build: ./backend`,
+so `deploy.sh` only needs `docker compose pull && docker compose up -d`
+rather than rebuilding from source on the instance.

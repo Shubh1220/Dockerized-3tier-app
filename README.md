@@ -21,7 +21,6 @@ three-tier-app/
 │   ├── app.py
 │   ├── requirements.txt
 │   ├── Dockerfile
-│   └── .dockerignore
 │
 ├── frontend/                        # Static frontend
 │   ├── index.html
@@ -29,7 +28,6 @@ three-tier-app/
 │   ├── app.js
 │   ├── nginx.conf                   # Nginx config for frontend container
 │   ├── Dockerfile
-│   └── .dockerignore
 │
 ├── nginx/                           # Reverse proxy
 │   ├── nginx.conf                   # Routes frontend + backend traffic
@@ -45,8 +43,23 @@ three-tier-app/
 ├── .env                             # Local environment variables
 ├── .env.aws                          # AWS/production environment variables
 ├── .gitignore
-├── README.md                         # Project documentation
-
+├── README.md                         # Project Documentation
+│                                  
+├── images                            # Architecture Diagram
+│   └── architecture.gif
+│
+└── screenshots                       # Screenshot 
+    ├── aws-rds.png
+    ├── deploy-1.png
+    ├── deploy-2.png
+    ├── deploy-3.png
+    ├── deploy-4.png
+    ├── deploy-5.png
+    ├── docker ps.png
+    ├── dockerhub.png
+    ├── ec2-instance.png
+    ├── live-browser.png
+    └── msql-rds.png
 ```
 
 ## 1. Run it EC2 Instance

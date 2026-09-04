@@ -21,6 +21,7 @@ three-tier-app/
 │   ├── app.py
 │   ├── requirements.txt
 │   ├── Dockerfile
+│   ├── .dockerignore
 │
 ├── frontend/                        # Static frontend
 │   ├── index.html
@@ -28,6 +29,7 @@ three-tier-app/
 │   ├── app.js
 │   ├── nginx.conf                   # Nginx config for frontend container
 │   ├── Dockerfile
+│   ├──.dockerignore
 │
 ├── nginx/                           # Reverse proxy
 │   ├── nginx.conf                   # Routes frontend + backend traffic
